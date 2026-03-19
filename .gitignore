@@ -1,0 +1,10 @@
+node_modules/
+db/*.db
+.env
+*.log
+coverage/
+dist/
+app/quiz-ui/node_modules/
+app/quiz-ui/build/
+gen/
+mta_archives/

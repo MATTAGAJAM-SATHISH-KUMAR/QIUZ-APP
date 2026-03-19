@@ -1,0 +1,58 @@
+<mvc:View
+    controllerName="quiz.app.controller.admin.QuestionBank"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="questionBankPage" title="{i18n>questionBank}">
+        <content>
+            <Table
+                id="bankTable"
+                items="{
+                    path: 'admin>/QuestionBank',
+                    parameters: { $expand: 'options' },
+                    sorter: { path: 'createdAt', descending: true }
+                }"
+                noDataText="{i18n>noData}"
+                growing="true"
+                growingThreshold="20">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>questionBank}" level="H4" />
+                        <ToolbarSpacer />
+                        <SearchField width="15rem" liveChange=".onSearch" />
+                        <Button
+                            text="{i18n>importQuestions}"
+                            icon="sap-icon://upload"
+                            press=".onImport" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column><Text text="{i18n>questionText}" /></Column>
+                    <Column width="8rem"><Text text="{i18n>questionType}" /></Column>
+                    <Column width="7rem"><Text text="{i18n>bankDifficulty}" /></Column>
+                    <Column width="7rem"><Text text="{i18n>bankCategory}" /></Column>
+                    <Column width="5rem"><Text text="{i18n>bankUsageCount}" /></Column>
+                    <Column width="5rem"><Text text="{i18n>questionPoints}" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Active" press=".onBankItemPress">
+                        <Text text="{admin>questionText}" maxLines="2" />
+                        <Text text="{admin>questionType}" />
+                        <ObjectStatus
+                            text="{
+                                path: 'admin>difficulty',
+                                formatter: '.formatter.formatDifficulty'
+                            }"
+                            state="{
+                                path: 'admin>difficulty',
+                                formatter: '.formatter.formatDifficultyState'
+                            }" />
+                        <Text text="{admin>category}" />
+                        <ObjectNumber number="{admin>usageCount}" />
+                        <ObjectNumber number="{admin>points}" />
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

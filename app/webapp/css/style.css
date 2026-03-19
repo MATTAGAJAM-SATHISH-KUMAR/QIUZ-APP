@@ -1,0 +1,66 @@
+/* ============================================================
+   Quiz App — Custom Styles (SAP Horizon theme base)
+   ============================================================ */
+
+/* Login page gradient background */
+.quizLoginPage {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    min-height: 100%;
+}
+
+.quizLoginCard {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding-top: 8rem;
+}
+
+.quizLoginDevBanner {
+    background-color: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/* Quiz taking */
+.quizQuestionText {
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.quizTimerWarning {
+    color: #e65100 !important;
+    font-weight: bold;
+}
+
+/* Attempt review */
+.quizOptionCorrect {
+    background-color: #e8f5e9 !important;
+    border-left: 4px solid #4caf50;
+}
+
+.quizOptionWrong {
+    background-color: #ffebee !important;
+    border-left: 4px solid #f44336;
+}
+
+/* Dashboard tiles */
+.quizDashTile {
+    margin: 0.5rem;
+}
+
+/* Side navigation highlight */
+.quizNavSelected {
+    font-weight: bold;
+}
+
+/* Admin editor */
+.quizEditorSection {
+    padding: 1rem;
+}
+
+/* Responsive adjustments */
+.sapUiSmallMarginTopBottom {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}

@@ -1,0 +1,60 @@
+<mvc:View
+    controllerName="quiz.app.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+
+    <Page id="loginPage" showHeader="false" class="quizLoginPage">
+        <content>
+            <VBox class="quizLoginCard" alignItems="Center">
+                <VBox alignItems="Center" class="sapUiLargeMarginBottom">
+                    <core:Icon src="sap-icon://education" size="3rem" color="#1a73e8" class="sapUiSmallMarginBottom" />
+                    <Title text="{i18n>loginTitle}" level="H1" />
+                    <Label text="{i18n>loginSubtitle}" class="sapUiTinyMarginTop" />
+                </VBox>
+
+                <l:VerticalLayout class="sapUiContentPadding" width="100%">
+                    <Panel class="sapUiSmallMarginBottom">
+                        <headerToolbar>
+                            <Toolbar>
+                                <core:Icon src="sap-icon://hint" class="sapUiSmallMarginEnd" />
+                                <Title text="Development Mode" level="H5" />
+                            </Toolbar>
+                        </headerToolbar>
+                        <content>
+                            <Text text="{i18n>loginDevNote}" class="sapUiSmallMargin" />
+                        </content>
+                    </Panel>
+
+                    <Title text="Quick Login" level="H5" class="sapUiSmallMarginBottom" />
+
+                    <Button
+                        text="{i18n>loginAsAdmin}"
+                        icon="sap-icon://shield"
+                        width="100%"
+                        type="Reject"
+                        press=".onLoginAdmin"
+                        class="sapUiSmallMarginBottom"
+                        busy="{loginView>/busy}" />
+                    <Button
+                        text="{i18n>loginAsInstructor}"
+                        icon="sap-icon://curriculum"
+                        width="100%"
+                        type="Emphasized"
+                        press=".onLoginInstructor"
+                        class="sapUiSmallMarginBottom"
+                        busy="{loginView>/busy}" />
+                    <Button
+                        text="{i18n>loginAsStudent}"
+                        icon="sap-icon://study-leave"
+                        width="100%"
+                        type="Accept"
+                        press=".onLoginStudent"
+                        class="sapUiSmallMarginBottom"
+                        busy="{loginView>/busy}" />
+                </l:VerticalLayout>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

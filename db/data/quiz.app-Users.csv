@@ -1,0 +1,6 @@
+ID;email;firstName;lastName;role;isActive;tenant_ID
+u1;admin@quiz.app;Alice;Admin;Admin;true;t1
+u2;instructor@quiz.app;Bob;Teacher;Instructor;true;t1
+u3;student1@quiz.app;Charlie;Student;Student;true;t1
+u4;student2@quiz.app;Diana;Learner;Student;true;t1
+u5;student3@quiz.app;Eve;Scholar;Student;true;t1

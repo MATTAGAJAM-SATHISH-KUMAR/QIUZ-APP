@@ -1,0 +1,127 @@
+<mvc:View
+    controllerName="quiz.app.controller.admin.QuizEditor"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:uxap="sap.uxap"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="quizEditorPage"
+        title="{i18n>editQuiz}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{editorView>/busy}">
+
+        <content>
+            <uxap:ObjectPageLayout id="objectPage" enableLazyLoading="true">
+                <uxap:headerTitle>
+                    <uxap:ObjectPageDynamicHeaderTitle>
+                        <uxap:heading>
+                            <Title text="{editorView>/quiz/title}" level="H2" />
+                        </uxap:heading>
+                        <uxap:expandedContent>
+                            <Text text="{editorView>/quiz/description}" />
+                        </uxap:expandedContent>
+                        <uxap:actions>
+                            <Button text="{i18n>save}" type="Emphasized" icon="sap-icon://save" press=".onSaveQuiz" />
+                            <Button text="{i18n>publishQuiz}" icon="sap-icon://publish" press=".onPublish"
+                                visible="{= ${editorView>/quiz/status} === 'draft'}" />
+                        </uxap:actions>
+                    </uxap:ObjectPageDynamicHeaderTitle>
+                </uxap:headerTitle>
+
+                <uxap:sections>
+                    <!-- Quiz Details Section -->
+                    <uxap:ObjectPageSection title="{i18n>quizDetails}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection>
+                                <f:SimpleForm
+                                    editable="true"
+                                    layout="ResponsiveGridLayout"
+                                    labelSpanL="4" labelSpanM="4"
+                                    emptySpanL="0" emptySpanM="0"
+                                    columnsL="2" columnsM="2">
+                                    <f:content>
+                                        <Label text="{i18n>quizTitle}" required="true" />
+                                        <Input value="{editorView>/quiz/title}" />
+
+                                        <Label text="{i18n>description}" />
+                                        <TextArea value="{editorView>/quiz/description}" rows="3" />
+
+                                        <Label text="{i18n>category}" />
+                                        <Input value="{editorView>/quiz/category}" />
+
+                                        <Label text="{i18n>difficulty}" />
+                                        <Select selectedKey="{editorView>/quiz/difficulty}">
+                                            <core:Item key="easy" text="Easy" />
+                                            <core:Item key="medium" text="Medium" />
+                                            <core:Item key="hard" text="Hard" />
+                                            <core:Item key="expert" text="Expert" />
+                                        </Select>
+
+                                        <Label text="{i18n>timeLimitMinutes}" />
+                                        <Input value="{editorView>/quiz/timeLimitMinutes}" type="Number" />
+
+                                        <Label text="{i18n>passingScore}" />
+                                        <Input value="{editorView>/quiz/passingScorePct}" type="Number" />
+
+                                        <Label text="{i18n>attemptsAllowed}" />
+                                        <Input value="{editorView>/quiz/attemptsAllowed}" type="Number" />
+                                    </f:content>
+                                </f:SimpleForm>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+
+                    <!-- Questions Section -->
+                    <uxap:ObjectPageSection title="{i18n>questions}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection>
+                                <Table
+                                    id="questionsTable"
+                                    items="{editorView>/questions}"
+                                    noDataText="{i18n>noData}">
+                                    <headerToolbar>
+                                        <Toolbar>
+                                            <Title text="{i18n>questions}" level="H5" />
+                                            <ToolbarSpacer />
+                                            <Button
+                                                text="{i18n>addQuestion}"
+                                                icon="sap-icon://add"
+                                                press=".onAddQuestion" />
+                                        </Toolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column width="3rem"><Text text="#" /></Column>
+                                        <Column><Text text="{i18n>questionText}" /></Column>
+                                        <Column width="8rem"><Text text="{i18n>questionType}" /></Column>
+                                        <Column width="5rem"><Text text="{i18n>questionPoints}" /></Column>
+                                        <Column width="5rem"><Text text="{i18n>options}" /></Column>
+                                        <Column width="8rem"><Text text="{i18n>actions}" /></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <ObjectNumber number="{editorView>orderIndex}" />
+                                            <Text text="{editorView>questionText}" maxLines="2" />
+                                            <Text text="{editorView>questionType}" />
+                                            <ObjectNumber number="{editorView>points}" />
+                                            <ObjectNumber number="{editorView>optionCount}" />
+                                            <HBox>
+                                                <Button icon="sap-icon://edit" type="Transparent" press=".onEditQuestion" />
+                                                <Button icon="sap-icon://delete" type="Transparent" press=".onDeleteQuestion" />
+                                            </HBox>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                </uxap:sections>
+            </uxap:ObjectPageLayout>
+        </content>
+    </Page>
+
+    <!-- Add/Edit Question Dialog -->
+    <core:Fragment fragmentName="quiz.app.fragment.QuestionDialog" type="XML" />
+</mvc:View>

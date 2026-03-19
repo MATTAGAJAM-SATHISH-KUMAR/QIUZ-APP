@@ -1,0 +1,52 @@
+<mvc:View
+    controllerName="quiz.app.controller.admin.Users"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="usersPage" title="{i18n>users}">
+        <content>
+            <Table
+                id="usersTable"
+                items="{admin>/Users}"
+                noDataText="{i18n>noData}"
+                growing="true"
+                growingThreshold="20">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>users}" level="H4" />
+                        <ToolbarSpacer />
+                        <SearchField width="15rem" liveChange=".onSearch" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column><Text text="{i18n>email}" /></Column>
+                    <Column><Text text="{i18n>firstName}" /></Column>
+                    <Column><Text text="{i18n>lastName}" /></Column>
+                    <Column width="8rem"><Text text="{i18n>role}" /></Column>
+                    <Column width="5rem"><Text text="{i18n>active}" /></Column>
+                    <Column width="10rem"><Text text="{i18n>lastLogin}" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <Text text="{admin>email}" />
+                        <Text text="{admin>firstName}" />
+                        <Text text="{admin>lastName}" />
+                        <ObjectStatus
+                            text="{admin>role}"
+                            state="{= ${admin>role} === 'Admin' ? 'Error' : ${admin>role} === 'Instructor' ? 'Warning' : 'Success'}" />
+                        <ObjectStatus
+                            text="{
+                                path: 'admin>isActive',
+                                formatter: '.formatter.formatBoolean'
+                            }"
+                            state="{= ${admin>isActive} ? 'Success' : 'Error'}" />
+                        <Text text="{
+                            path: 'admin>lastLoginAt',
+                            formatter: '.formatter.formatDate'
+                        }" />
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

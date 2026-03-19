@@ -1,0 +1,45 @@
+<mvc:View
+    controllerName="quiz.app.controller.JoinByCode"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page id="joinByCodePage" title="{i18n>joinByCode}" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <VBox alignItems="Center" class="sapUiLargeMarginTop">
+                <l:VerticalLayout class="sapUiContentPadding" width="24rem">
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanL="12" labelSpanM="12" labelSpanS="12"
+                        emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                        columnsL="1" columnsM="1">
+                        <f:content>
+                            <Label text="{i18n>enterShareCode}" required="true" />
+                            <Input
+                                id="shareCodeInput"
+                                value="{joinView>/shareCode}"
+                                placeholder="e.g. QUIZ-ABC123" />
+                            <Label text="{i18n>enterAccessCode}" />
+                            <Input
+                                id="accessCodeInput"
+                                value="{joinView>/accessCode}"
+                                placeholder="{i18n>enterAccessCode}"
+                                type="Password" />
+                        </f:content>
+                    </f:SimpleForm>
+
+                    <Button
+                        text="{i18n>joinQuiz}"
+                        type="Emphasized"
+                        icon="sap-icon://enter-more"
+                        width="100%"
+                        press=".onJoinQuiz"
+                        busy="{joinView>/busy}"
+                        class="sapUiSmallMarginTop" />
+                </l:VerticalLayout>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

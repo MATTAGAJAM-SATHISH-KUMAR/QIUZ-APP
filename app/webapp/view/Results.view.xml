@@ -1,0 +1,71 @@
+<mvc:View
+    controllerName="quiz.app.controller.Results"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="resultsPage" title="{i18n>results}">
+        <content>
+            <Table
+                id="resultsTable"
+                items="{
+                    path: 'quiz>/MyAttempts',
+                    sorter: { path: 'createdAt', descending: true }
+                }"
+                noDataText="{i18n>noResults}"
+                growing="true"
+                growingThreshold="20">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>results}" level="H4" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column><Text text="{i18n>attemptNumber}" /></Column>
+                    <Column><Text text="{i18n>quizName}" /></Column>
+                    <Column><Text text="{i18n>score}" /></Column>
+                    <Column><Text text="{i18n>status}" /></Column>
+                    <Column><Text text="{i18n>timeTaken}" /></Column>
+                    <Column><Text text="{i18n>date}" /></Column>
+                    <Column><Text text="{i18n>actions}" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <ObjectNumber number="{quiz>attemptNumber}" />
+                        <Text text="{quiz>quizTitle}" />
+                        <HBox>
+                            <ObjectNumber
+                                number="{quiz>scorePercentage}"
+                                unit="%"
+                                state="{
+                                    path: 'quiz>passed',
+                                    formatter: '.formatter.formatPassedState'
+                                }" />
+                        </HBox>
+                        <ObjectStatus
+                            text="{
+                                path: 'quiz>passed',
+                                formatter: '.formatter.formatPassedText'
+                            }"
+                            state="{
+                                path: 'quiz>passed',
+                                formatter: '.formatter.formatPassedState'
+                            }" />
+                        <Text text="{
+                            path: 'quiz>timeTakenSeconds',
+                            formatter: '.formatter.formatSeconds'
+                        }" />
+                        <Text text="{
+                            path: 'quiz>createdAt',
+                            formatter: '.formatter.formatDate'
+                        }" />
+                        <Button
+                            text="{i18n>viewDetails}"
+                            icon="sap-icon://inspection"
+                            type="Transparent"
+                            press=".onViewDetails" />
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

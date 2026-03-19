@@ -1,0 +1,79 @@
+<mvc:View
+    controllerName="quiz.app.controller.admin.QuizList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="adminQuizListPage" title="{i18n>adminQuizzes}">
+        <content>
+            <Table
+                id="adminQuizTable"
+                items="{
+                    path: 'admin>/Quizzes',
+                    sorter: { path: 'createdAt', descending: true }
+                }"
+                noDataText="{i18n>noData}"
+                growing="true"
+                growingThreshold="20">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>adminQuizzes}" level="H4" />
+                        <ToolbarSpacer />
+                        <SearchField width="15rem" liveChange=".onSearch" />
+                        <Button
+                            text="{i18n>createQuiz}"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            press=".onCreateQuiz" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column><Text text="{i18n>quizTitle}" /></Column>
+                    <Column width="8rem"><Text text="{i18n>quizCategory}" /></Column>
+                    <Column width="7rem"><Text text="{i18n>quizStatus}" /></Column>
+                    <Column width="7rem"><Text text="{i18n>quizDifficulty}" /></Column>
+                    <Column width="6rem"><Text text="{i18n>questions}" /></Column>
+                    <Column width="10rem"><Text text="{i18n>date}" /></Column>
+                    <Column width="14rem"><Text text="{i18n>actions}" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <VBox>
+                            <Text text="{admin>title}" />
+                            <Label text="{admin>description}" wrapping="true" />
+                        </VBox>
+                        <Text text="{admin>category}" />
+                        <ObjectStatus
+                            text="{
+                                path: 'admin>status',
+                                formatter: '.formatter.formatStatus'
+                            }"
+                            state="{
+                                path: 'admin>status',
+                                formatter: '.formatter.formatStatusState'
+                            }" />
+                        <ObjectStatus
+                            text="{
+                                path: 'admin>difficulty',
+                                formatter: '.formatter.formatDifficulty'
+                            }"
+                            state="{
+                                path: 'admin>difficulty',
+                                formatter: '.formatter.formatDifficultyState'
+                            }" />
+                        <ObjectNumber number="{admin>currentVersion}" unit="ver" />
+                        <Text text="{
+                            path: 'admin>createdAt',
+                            formatter: '.formatter.formatDate'
+                        }" />
+                        <HBox>
+                            <Button icon="sap-icon://edit" type="Transparent" press=".onEditQuiz" tooltip="{i18n>editQuiz}" />
+                            <Button icon="sap-icon://publish" type="Transparent" press=".onPublishQuiz" tooltip="{i18n>publishQuiz}" />
+                            <Button icon="sap-icon://chart-table-view" type="Transparent" press=".onAnalytics" tooltip="{i18n>analytics}" />
+                            <Button icon="sap-icon://delete" type="Transparent" press=".onDeleteQuiz" tooltip="{i18n>deleteQuiz}" />
+                        </HBox>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

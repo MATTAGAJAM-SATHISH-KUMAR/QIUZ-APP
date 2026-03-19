@@ -1,0 +1,81 @@
+<mvc:View
+    controllerName="quiz.app.controller.AttemptReview"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="attemptReviewPage"
+        title="{i18n>reviewTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{reviewView>/busy}">
+
+        <headerContent>
+            <ObjectStatus
+                text="{
+                    path: 'reviewView>/scorePercentage',
+                    formatter: '.formatter.formatPercent'
+                }"
+                state="{
+                    path: 'reviewView>/passed',
+                    formatter: '.formatter.formatPassedState'
+                }" />
+        </headerContent>
+
+        <content>
+            <!-- Summary bar -->
+            <Toolbar class="sapUiSmallMarginBottom">
+                <Title text="{reviewView>/quizTitle}" level="H4" />
+                <ToolbarSpacer />
+                <ObjectNumber number="{reviewView>/totalScore}" unit="/ {reviewView>/maxScore}" />
+                <ObjectStatus
+                    text="{
+                        path: 'reviewView>/passed',
+                        formatter: '.formatter.formatPassedText'
+                    }"
+                    state="{
+                        path: 'reviewView>/passed',
+                        formatter: '.formatter.formatPassedState'
+                    }" />
+            </Toolbar>
+
+            <!-- Questions review list -->
+            <List
+                id="reviewList"
+                items="{reviewView>/answers}"
+                noDataText="{i18n>noData}">
+                <CustomListItem>
+                    <VBox class="sapUiSmallMargin">
+                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                            <Title text="{reviewView>questionText}" level="H5" wrapping="true" />
+                            <ObjectStatus
+                                text="{= ${reviewView>isCorrect} ? ${i18n>correct} : ${i18n>incorrect}}"
+                                state="{= ${reviewView>isCorrect} ? 'Success' : 'Error'}"
+                                icon="{= ${reviewView>isCorrect} ? 'sap-icon://accept' : 'sap-icon://decline'}" />
+                        </HBox>
+
+                        <HBox>
+                            <Label text="{i18n>yourAnswer}:" class="sapUiSmallMarginEnd" />
+                            <Text text="{reviewView>selectedOptions}" />
+                        </HBox>
+
+                        <HBox visible="{= !${reviewView>isCorrect}}">
+                            <Label text="{i18n>correctAnswer}:" class="sapUiSmallMarginEnd" />
+                            <Text text="{reviewView>correctAnswer}" />
+                        </HBox>
+
+                        <VBox visible="{= !!${reviewView>explanation}}" class="sapUiSmallMarginTop">
+                            <Label text="{i18n>explanation}:" design="Bold" />
+                            <Text text="{reviewView>explanation}" wrapping="true" />
+                        </VBox>
+
+                        <ObjectNumber
+                            number="{reviewView>pointsAwarded}"
+                            unit="/ {reviewView>points} pts"
+                            class="sapUiSmallMarginTop" />
+                    </VBox>
+                </CustomListItem>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

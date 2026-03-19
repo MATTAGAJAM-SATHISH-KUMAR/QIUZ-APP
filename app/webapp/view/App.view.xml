@@ -1,0 +1,71 @@
+<mvc:View
+    controllerName="quiz.app.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt">
+
+    <tnt:ToolPage id="toolPage" sideExpanded="{appView>/sideExpanded}">
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button
+                    id="sideNavToggleBtn"
+                    icon="sap-icon://menu2"
+                    press=".onToggleSideNav"
+                    type="Transparent" />
+                <Title text="{i18n>appTitle}" level="H4" />
+                <ToolbarSpacer />
+                <Text
+                    text="{appView>/user/email}"
+                    visible="{= !!${appView>/user}}" />
+                <Button
+                    icon="sap-icon://log"
+                    press=".onLogout"
+                    type="Transparent"
+                    tooltip="{i18n>logout}"
+                    visible="{= !!${appView>/user}}" />
+            </tnt:ToolHeader>
+        </tnt:header>
+
+        <tnt:sideContent>
+            <tnt:SideNavigation
+                id="sideNav"
+                itemSelect=".onNavItemSelect"
+                visible="{= !!${appView>/user}}">
+                <tnt:NavigationList>
+                    <tnt:NavigationListItem text="{i18n>dashboard}" icon="sap-icon://home" key="dashboard" />
+                    <tnt:NavigationListItem text="{i18n>quizzes}" icon="sap-icon://education" key="quizList" />
+                    <tnt:NavigationListItem text="{i18n>results}" icon="sap-icon://performance" key="results" />
+                    <tnt:NavigationListItem text="{i18n>joinByCode}" icon="sap-icon://enter-more" key="joinByCode" />
+                </tnt:NavigationList>
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+                        <tnt:NavigationListItem
+                            text="{i18n>adminQuizzes}"
+                            icon="sap-icon://customize"
+                            key="adminQuizList"
+                            visible="{appView>/isAdminOrInstructor}" />
+                        <tnt:NavigationListItem
+                            text="{i18n>questionBank}"
+                            icon="sap-icon://database"
+                            key="questionBank"
+                            visible="{appView>/isAdminOrInstructor}" />
+                        <tnt:NavigationListItem
+                            text="{i18n>analytics}"
+                            icon="sap-icon://business-objects-experience"
+                            key="analytics"
+                            visible="{appView>/isAdminOrInstructor}" />
+                        <tnt:NavigationListItem
+                            text="{i18n>users}"
+                            icon="sap-icon://group"
+                            key="users"
+                            visible="{appView>/isAdmin}" />
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <NavContainer id="appContainer" />
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

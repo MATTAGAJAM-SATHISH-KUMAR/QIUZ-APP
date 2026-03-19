@@ -1,0 +1,73 @@
+<mvc:View
+    controllerName="quiz.app.controller.QuizList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="quizListPage" title="{i18n>quizzes}">
+        <content>
+            <Table
+                id="quizTable"
+                items="{quiz>/AvailableQuizzes}"
+                noDataText="{i18n>noQuizzesAvailable}"
+                growing="true"
+                growingThreshold="20"
+                mode="SingleSelectMaster"
+                selectionChange=".onQuizSelect">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>quizzes}" level="H4" />
+                        <ToolbarSpacer />
+                        <SearchField
+                            width="15rem"
+                            placeholder="{i18n>searchQuestions}"
+                            liveChange=".onSearch" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="{i18n>quizTitle}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>quizCategory}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>quizDifficulty}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>quizTimeLimit}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>actions}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Active" press=".onQuizPress">
+                        <VBox>
+                            <Text text="{quiz>title}" class="sapMText sapUiSmallMarginBottom" />
+                            <Label text="{quiz>description}" wrapping="true" />
+                        </VBox>
+                        <Text text="{quiz>category}" />
+                        <ObjectStatus
+                            text="{
+                                path: 'quiz>difficulty',
+                                formatter: '.formatter.formatDifficulty'
+                            }"
+                            state="{
+                                path: 'quiz>difficulty',
+                                formatter: '.formatter.formatDifficultyState'
+                            }" />
+                        <Text text="{
+                            path: 'quiz>timeLimitMinutes',
+                            formatter: '.formatter.formatTimeLimit'
+                        }" />
+                        <Button
+                            text="{i18n>startQuiz}"
+                            type="Emphasized"
+                            icon="sap-icon://begin"
+                            press=".onStartQuiz" />
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

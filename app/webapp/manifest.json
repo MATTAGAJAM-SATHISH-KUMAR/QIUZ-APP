@@ -1,0 +1,164 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "quiz.app",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "2.0.0"
+    },
+    "dataSources": {
+      "userService": {
+        "uri": "/api/user/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      },
+      "quizService": {
+        "uri": "/api/quiz/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      },
+      "adminService": {
+        "uri": "/api/admin/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://education"
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "quiz.app.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "appView"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.tnt": {},
+        "sap.ui.layout": {},
+        "sap.uxap": {},
+        "sap.ui.unified": {}
+      }
+    },
+    "models": {
+      "quiz": {
+        "dataSource": "quizService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": false
+        }
+      },
+      "user": {
+        "dataSource": "userService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": false
+        }
+      },
+      "admin": {
+        "dataSource": "adminService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": false
+        }
+      },
+      "appView": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "data": {
+            "user": null,
+            "busy": true,
+            "sideExpanded": true,
+            "isAdmin": false,
+            "isAdminOrInstructor": false
+          }
+        }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "quiz.app.i18n.i18n"
+        }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "viewPath": "quiz.app.view",
+        "controlId": "appContainer",
+        "controlAggregation": "pages",
+        "transition": "slide",
+        "async": true
+      },
+      "routes": [
+        { "name": "dashboard", "pattern": "", "target": "dashboard" },
+        { "name": "dashboardRoute", "pattern": "dashboard", "target": "dashboard" },
+        { "name": "quizList", "pattern": "quizzes", "target": "quizList" },
+        { "name": "takeQuiz", "pattern": "quiz/{quizId}", "target": "takeQuiz" },
+        { "name": "results", "pattern": "results", "target": "results" },
+        { "name": "attemptReview", "pattern": "results/{attemptId}", "target": "attemptReview" },
+        { "name": "joinByCode", "pattern": "join", "target": "joinByCode" },
+        { "name": "adminQuizList", "pattern": "admin/quizzes", "target": "adminQuizList" },
+        { "name": "newQuiz", "pattern": "admin/quiz/new", "target": "quizEditor" },
+        { "name": "quizEditor", "pattern": "admin/quiz/{quizId}", "target": "quizEditor" },
+        { "name": "questionBank", "pattern": "admin/question-bank", "target": "questionBank" },
+        { "name": "analytics", "pattern": "admin/analytics/{quizId}", "target": "analytics" },
+        { "name": "users", "pattern": "admin/users", "target": "users" }
+      ],
+      "targets": {
+        "login": { "viewName": "Login", "viewLevel": 0 },
+        "dashboard": { "viewName": "Dashboard", "viewLevel": 1 },
+        "quizList": { "viewName": "QuizList", "viewLevel": 1 },
+        "takeQuiz": { "viewName": "TakeQuiz", "viewLevel": 2 },
+        "results": { "viewName": "Results", "viewLevel": 1 },
+        "attemptReview": { "viewName": "AttemptReview", "viewLevel": 2 },
+        "joinByCode": { "viewName": "JoinByCode", "viewLevel": 1 },
+        "adminQuizList": { "viewName": "admin.QuizList", "viewLevel": 1 },
+        "quizEditor": { "viewName": "admin.QuizEditor", "viewLevel": 2 },
+        "questionBank": { "viewName": "admin.QuestionBank", "viewLevel": 1 },
+        "analytics": { "viewName": "admin.Analytics", "viewLevel": 2 },
+        "users": { "viewName": "admin.Users", "viewLevel": 1 }
+      }
+    },
+    "resources": {
+      "css": [
+        { "uri": "css/style.css" }
+      ]
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  }
+}

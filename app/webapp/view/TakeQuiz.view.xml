@@ -1,0 +1,124 @@
+<mvc:View
+    controllerName="quiz.app.controller.TakeQuiz"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="takeQuizPage"
+        title="{quizView>/quizTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{quizView>/busy}">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" />
+                    <Title text="{quizView>/quizTitle}" />
+                </contentLeft>
+                <contentMiddle>
+                    <Text text="{quizView>/questionLabel}" />
+                </contentMiddle>
+                <contentRight>
+                    <ObjectStatus
+                        text="{quizView>/timeDisplay}"
+                        icon="sap-icon://fob-watch"
+                        state="{= ${quizView>/timeWarning} ? 'Error' : 'None'}"
+                        visible="{= !!${quizView>/timeDisplay}}" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <!-- No attempt yet — loading -->
+            <VBox
+                visible="{= !${quizView>/attemptId}}"
+                alignItems="Center"
+                class="sapUiLargeMarginTop">
+                <BusyIndicator size="L" />
+                <Text text="{i18n>loading}" class="sapUiSmallMarginTop" />
+            </VBox>
+
+            <!-- Quiz content -->
+            <VBox
+                visible="{= !!${quizView>/attemptId}}"
+                class="sapUiMediumMargin">
+
+                <!-- Progress bar -->
+                <ProgressIndicator
+                    percentValue="{quizView>/progressPercent}"
+                    displayValue="{quizView>/questionLabel}"
+                    state="Information"
+                    class="sapUiMediumMarginBottom" />
+
+                <!-- Question text -->
+                <Panel class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{quizView>/currentQuestion/questionText}" level="H4" wrapping="true" />
+                            <ToolbarSpacer />
+                            <ObjectNumber number="{quizView>/currentQuestion/points}" unit="{i18n>points}" />
+                        </Toolbar>
+                    </headerToolbar>
+                </Panel>
+
+                <!-- MCQ Single / True-False options -->
+                <List
+                    id="singleOptionsList"
+                    mode="SingleSelectLeft"
+                    selectionChange=".onSingleSelect"
+                    items="{quizView>/currentQuestion/options}"
+                    visible="{= ${quizView>/currentQuestion/questionType} === 'mcq_single' || ${quizView>/currentQuestion/questionType} === 'true_false'}"
+                    headerText="{i18n>selectAnswer}">
+                    <StandardListItem title="{quizView>optionText}" type="Active" />
+                </List>
+
+                <!-- MCQ Multi options -->
+                <List
+                    id="multiOptionsList"
+                    mode="MultiSelect"
+                    selectionChange=".onMultiSelect"
+                    items="{quizView>/currentQuestion/options}"
+                    visible="{= ${quizView>/currentQuestion/questionType} === 'mcq_multi'}"
+                    headerText="{i18n>selectAnswer}">
+                    <StandardListItem title="{quizView>optionText}" type="Active" />
+                </List>
+
+                <!-- Fill in the blank -->
+                <VBox visible="{= ${quizView>/currentQuestion/questionType} === 'fill_blank'}" class="sapUiSmallMarginTop">
+                    <Label text="{i18n>typeAnswer}" />
+                    <Input
+                        id="fillBlankInput"
+                        value="{quizView>/currentAnswer/fillBlankAnswer}"
+                        placeholder="{i18n>typeAnswer}"
+                        width="100%" />
+                </VBox>
+            </VBox>
+        </content>
+
+        <footer>
+            <Toolbar visible="{= !!${quizView>/attemptId}}">
+                <Button
+                    text="{i18n>previous}"
+                    icon="sap-icon://navigation-left-arrow"
+                    press=".onPrevious"
+                    enabled="{= ${quizView>/currentIndex} > 0}" />
+                <ToolbarSpacer />
+                <Button
+                    text="{i18n>next}"
+                    icon="sap-icon://navigation-right-arrow"
+                    iconFirst="false"
+                    press=".onNext"
+                    type="Emphasized"
+                    visible="{= ${quizView>/currentIndex} &lt; ${quizView>/totalQuestions} - 1}" />
+                <Button
+                    text="{i18n>submit}"
+                    icon="sap-icon://accept"
+                    press=".onSubmit"
+                    type="Accept"
+                    visible="{= ${quizView>/currentIndex} >= ${quizView>/totalQuestions} - 1}" />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

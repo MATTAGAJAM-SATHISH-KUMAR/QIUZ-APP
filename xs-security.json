@@ -1,0 +1,83 @@
+{
+  "xsappname": "quiz-app",
+  "tenant-mode": "shared",
+  "description": "Quiz Application - SAP BTP CAPM",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrator access"
+    },
+    {
+      "name": "$XSAPPNAME.Instructor",
+      "description": "Instructor access"
+    },
+    {
+      "name": "$XSAPPNAME.Student",
+      "description": "Student access"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "tenantId",
+      "description": "Tenant identifier",
+      "valueType": "string"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "description": "Full administrative access",
+      "scope-references": [
+        "$XSAPPNAME.Admin",
+        "$XSAPPNAME.Instructor",
+        "$XSAPPNAME.Student"
+      ],
+      "attribute-references": ["tenantId"]
+    },
+    {
+      "name": "Instructor",
+      "description": "Quiz creation and management",
+      "scope-references": [
+        "$XSAPPNAME.Instructor",
+        "$XSAPPNAME.Student"
+      ],
+      "attribute-references": ["tenantId"]
+    },
+    {
+      "name": "Student",
+      "description": "Quiz taking and results viewing",
+      "scope-references": [
+        "$XSAPPNAME.Student"
+      ],
+      "attribute-references": ["tenantId"]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "QuizApp_Admin",
+      "description": "Quiz App Administrator",
+      "role-template-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "QuizApp_Instructor",
+      "description": "Quiz App Instructor",
+      "role-template-references": [
+        "$XSAPPNAME.Instructor"
+      ]
+    },
+    {
+      "name": "QuizApp_Student",
+      "description": "Quiz App Student",
+      "role-template-references": [
+        "$XSAPPNAME.Student"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.*.hana.ondemand.com/**"
+    ]
+  }
+}

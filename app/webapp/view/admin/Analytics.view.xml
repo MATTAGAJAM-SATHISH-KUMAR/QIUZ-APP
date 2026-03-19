@@ -1,0 +1,90 @@
+<mvc:View
+    controllerName="quiz.app.controller.admin.Analytics"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+
+    <Page
+        id="analyticsPage"
+        title="{i18n>analytics}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{analyticsView>/busy}">
+
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Title text="{analyticsView>/quizTitle}" level="H3" class="sapUiMediumMarginBottom" />
+
+                <!-- Summary Tiles -->
+                <l:Grid defaultSpan="L3 M6 S12" class="sapUiSmallMarginBottom">
+                    <GenericTile header="{i18n>totalAttempts}" class="quizDashTile">
+                        <TileContent>
+                            <NumericContent value="{analyticsView>/totalAttempts}" icon="sap-icon://number-sign" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile header="{i18n>uniqueStudents}" class="quizDashTile">
+                        <TileContent>
+                            <NumericContent value="{analyticsView>/uniqueStudents}" icon="sap-icon://group" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile header="{i18n>averageScore}" class="quizDashTile">
+                        <TileContent>
+                            <NumericContent value="{analyticsView>/avgScore}" scale="%" icon="sap-icon://performance" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile header="{i18n>passRate}" class="quizDashTile">
+                        <TileContent>
+                            <NumericContent value="{analyticsView>/passRate}" scale="%" icon="sap-icon://accept" />
+                        </TileContent>
+                    </GenericTile>
+                </l:Grid>
+
+                <!-- Score Distribution -->
+                <Panel headerText="{i18n>scoreDistribution}" class="sapUiSmallMarginTop">
+                    <Table
+                        id="distributionTable"
+                        items="{analyticsView>/scoreDistribution}"
+                        noDataText="{i18n>noData}">
+                        <columns>
+                            <Column><Text text="Range" /></Column>
+                            <Column><Text text="Count" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <Text text="{analyticsView>rangeLabel}" />
+                                <ObjectNumber number="{analyticsView>count}" />
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <!-- Question Accuracy -->
+                <Panel headerText="{i18n>questionAccuracy}" class="sapUiSmallMarginTop">
+                    <Table
+                        id="accuracyTable"
+                        items="{analyticsView>/questionAccuracy}"
+                        noDataText="{i18n>noData}">
+                        <columns>
+                            <Column><Text text="{i18n>questionText}" /></Column>
+                            <Column width="8rem"><Text text="Correct %" /></Column>
+                            <Column width="8rem"><Text text="Avg Time" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <Text text="{analyticsView>questionText}" maxLines="2" />
+                                <ObjectNumber
+                                    number="{analyticsView>correctPct}"
+                                    unit="%"
+                                    state="{= ${analyticsView>correctPct} >= 70 ? 'Success' : ${analyticsView>correctPct} >= 40 ? 'Warning' : 'Error'}" />
+                                <Text text="{
+                                    path: 'analyticsView>avgTime',
+                                    formatter: '.formatter.formatSeconds'
+                                }" />
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

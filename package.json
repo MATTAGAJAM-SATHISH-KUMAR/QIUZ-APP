@@ -1,0 +1,88 @@
+{
+  "name": "quiz-app-cap",
+  "version": "2.0.0",
+  "description": "Production-ready Quiz Application on SAP BTP CAPM with React frontend",
+  "repository": "",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^9",
+    "@sap/cds-mtxs": "^3",
+    "@sap/xssec": "^4",
+    "csv-parse": "^5",
+    "csv-stringify": "^6",
+    "dotenv": "^16",
+    "express": "^4",
+    "express-rate-limit": "^7",
+    "helmet": "^7",
+    "hpp": "^0.2",
+    "openai": "^4",
+    "passport": "^0.7",
+    "pdfkit": "^0.13",
+    "sanitize-html": "^2",
+    "socket.io": "^4",
+    "uuid": "^9",
+    "winston": "^3"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8",
+    "jest": "^29.7.0",
+    "supertest": "^6"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "dev": "cds watch",
+    "build": "cds build --production",
+    "test": "jest --coverage",
+    "deploy:sqlite": "cds deploy --to sqlite:db/quiz.db",
+    "deploy:hana": "cds deploy --to hana",
+    "build:mta": "mbt build",
+    "lint": "eslint srv/ test/"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql",
+        "[development]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db/quiz.db"
+          }
+        },
+        "[production]": {
+          "kind": "hana"
+        }
+      },
+      "auth": {
+        "kind": "dummy"
+      },
+      "multitenancy": true
+    },
+    "features": {
+      "serve_on_root": true
+    },
+    "build": {
+      "target": "gen",
+      "tasks": [
+        { "for": "hana", "src": "db", "options": { "model": ["db", "srv"] } },
+        { "for": "node-cf", "src": "srv", "options": { "model": ["db", "srv"] } }
+      ]
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "odata": {
+      "version": "v4"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "srv/**/*.js"
+    ]
+  }
+}

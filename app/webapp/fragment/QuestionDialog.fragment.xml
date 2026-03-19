@@ -1,0 +1,66 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog id="questionDialog" title="{editorView>/dialogTitle}" contentWidth="40rem">
+        <content>
+            <f:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanL="4" labelSpanM="4"
+                emptySpanL="0" emptySpanM="0"
+                columnsL="1" columnsM="1">
+                <f:content>
+                    <Label text="{i18n>questionText}" required="true" />
+                    <TextArea value="{editorView>/editQuestion/questionText}" rows="3" width="100%" />
+
+                    <Label text="{i18n>questionType}" />
+                    <Select selectedKey="{editorView>/editQuestion/questionType}">
+                        <core:Item key="mcq_single" text="Multiple Choice (Single)" />
+                        <core:Item key="mcq_multi" text="Multiple Choice (Multi)" />
+                        <core:Item key="true_false" text="True / False" />
+                        <core:Item key="fill_blank" text="Fill in the Blank" />
+                    </Select>
+
+                    <Label text="{i18n>questionPoints}" />
+                    <Input value="{editorView>/editQuestion/points}" type="Number" />
+
+                    <Label text="{i18n>orderIndex}" />
+                    <Input value="{editorView>/editQuestion/orderIndex}" type="Number" />
+
+                    <Label text="{i18n>explanation}" />
+                    <TextArea value="{editorView>/editQuestion/explanation}" rows="2" width="100%" />
+                </f:content>
+            </f:SimpleForm>
+
+            <!-- Options -->
+            <Panel headerText="{i18n>options}" class="sapUiSmallMarginTop">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>options}" level="H5" />
+                        <ToolbarSpacer />
+                        <Button text="{i18n>addOption}" icon="sap-icon://add" press=".onAddOption" />
+                    </Toolbar>
+                </headerToolbar>
+                <content>
+                    <List id="optionEditList" items="{editorView>/editQuestion/options}">
+                        <CustomListItem>
+                            <HBox alignItems="Center" class="sapUiSmallMargin">
+                                <Input value="{editorView>optionText}" placeholder="{i18n>optionText}" width="60%" class="sapUiSmallMarginEnd" />
+                                <CheckBox text="{i18n>isCorrect}" selected="{editorView>isCorrect}" class="sapUiSmallMarginEnd" />
+                                <Button icon="sap-icon://delete" type="Transparent" press=".onRemoveOption" />
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </content>
+            </Panel>
+        </content>
+        <beginButton>
+            <Button text="{i18n>save}" type="Emphasized" press=".onSaveQuestion" />
+        </beginButton>
+        <endButton>
+            <Button text="{i18n>cancel}" press=".onCancelQuestion" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

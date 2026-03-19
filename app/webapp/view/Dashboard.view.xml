@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="quiz.app.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+
+    <Page id="dashboardPage" title="{i18n>dashboard}">
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Title text="{i18n>welcomeMsg}" level="H2" class="sapUiMediumMarginBottom" />
+
+                <l:Grid defaultSpan="L3 M6 S12" class="sapUiSmallMarginBottom">
+                    <GenericTile
+                        header="{i18n>availableQuizzes}"
+                        press=".onQuizzesPress"
+                        class="quizDashTile">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashView>/quizCount}"
+                                icon="sap-icon://education" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        header="{i18n>myAttempts}"
+                        press=".onResultsPress"
+                        class="quizDashTile">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashView>/attemptCount}"
+                                icon="sap-icon://performance" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        header="{i18n>joinByCode}"
+                        press=".onJoinPress"
+                        class="quizDashTile">
+                        <TileContent>
+                            <ImageContent src="sap-icon://enter-more" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        header="{i18n>adminQuizzes}"
+                        press=".onAdminPress"
+                        class="quizDashTile"
+                        visible="{appView>/isAdminOrInstructor}">
+                        <TileContent>
+                            <ImageContent src="sap-icon://customize" />
+                        </TileContent>
+                    </GenericTile>
+                </l:Grid>
+
+                <Panel headerText="{i18n>recentActivity}" class="sapUiSmallMarginTop">
+                    <Table
+                        id="recentAttemptsTable"
+                        items="{dashView>/recentAttempts}"
+                        noDataText="{i18n>noRecentActivity}"
+                        growing="true"
+                        growingThreshold="5">
+                        <columns>
+                            <Column><Text text="{i18n>quizName}" /></Column>
+                            <Column><Text text="{i18n>score}" /></Column>
+                            <Column><Text text="{i18n>status}" /></Column>
+                            <Column><Text text="{i18n>date}" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Navigation" press=".onAttemptPress">
+                                <Text text="{dashView>quizTitle}" />
+                                <ObjectNumber
+                                    number="{dashView>scorePercentage}"
+                                    unit="%" />
+                                <ObjectStatus
+                                    text="{= ${dashView>passed} ? ${i18n>passed} : ${i18n>failed}}"
+                                    state="{= ${dashView>passed} ? 'Success' : 'Error'}" />
+                                <Text text="{
+                                    path: 'dashView>createdAt',
+                                    formatter: '.formatter.formatDate'
+                                }" />
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
